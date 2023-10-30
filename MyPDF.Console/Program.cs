@@ -37,7 +37,7 @@ var document = Document.Create(container =>
 
                 x.Item().Table(table =>
                 {
-                    var properties = typeof(Person).GetProperties();
+                    var properties = people.GetType().GetGenericArguments().Single().GetProperties();
                     table.ColumnsDefinition(columns =>
                     {
                         columns.RelativeColumn();
@@ -59,10 +59,10 @@ var document = Document.Create(container =>
                     for (int i = 0; i < people.Count(); i++)
                     {
                         table
-                                .Cell()
-                                .Row((uint)i + 2)
-                                .Column(1)
-                                .Element(x => Block(x)).Text((i + 1).ToString());
+                            .Cell()
+                            .Row((uint)i + 2)
+                            .Column(1)
+                            .Element(x => Block(x)).Text((i + 1).ToString());
                         for (int j = 0; j < properties.Count(); j++)
                             table
                                 .Cell()
@@ -70,7 +70,6 @@ var document = Document.Create(container =>
                                 .Column((uint)j + 2)
                                 .Element(x => Block(x)).Text(properties[j]?.GetValue(people[i])?.ToString());
                     }
-
 
                     static IContainer Block(IContainer container)
                         => container
